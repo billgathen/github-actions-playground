@@ -30,4 +30,4 @@ jobs:
     needs: generator
     steps:
       - name: Output result
-        run: echo needs.generator.outputs.final-result
+        run: echo "${{needs.generator.outputs.final-result}}"
