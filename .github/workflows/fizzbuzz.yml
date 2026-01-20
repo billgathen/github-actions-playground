@@ -1,0 +1,33 @@
+name: Fizzbuzz with GH Actions
+on:
+  workflow_dispatch:
+    inputs:
+      places: 
+        default: "15"
+
+jobs:
+  generator:
+    runs-on: ubuntu-latest
+    outputs:
+      fizzbuzz-step-result: ${{ steps.apply-fizzbuzz.outputs.fizzbuzz-step-result }}
+      fizz-step-result: ${{ steps.apply-fizz.outputs.fizz-step-result }}
+      buzz-step-result: ${{ steps.apply-buzz.outputs.buzz-step-result }}
+      final-result: ${{ steps.apply-buzz.outputs.final-result }}
+    steps:
+      - name: Transform multiples of 3 and 5 to fizzbuzz
+        id: apply-fizzbuzz
+        run: echo "fizzbuzz-step-result=1,2,3,4,5,6,7,8,9,10,11,12,13,15,fizzbuzz" >> "$GITHUB_OUTPUT"
+      - name: Transform multiples of 3 to fizz
+        id: apply-fizz
+        run: echo "fizz-step-result=1,2,fizz,4,5,fizz,7,8,fizz,10,11,fizz,13,14,fizz" >> "$GITHUB_OUTPUT"
+      - name: Transform multiples of 5 to buzz
+        id: apply-buzz
+        run: |
+          echo "buzz-step-result=1,2,3,4,buzz,6,7,8,9,buzz,11,12,13,14,buzz" >> "$GITHUB_OUTPUT"
+          echo "final-result=1,2,fizz,4,buzz,fizz,7,8,fizz,buzz,11,fizz,13,14,fizzbuzz" >> "$GITHUB_OUTPUT"
+  emitter:
+    runs-on: ubuntu-latest
+    needs: generator
+    steps:
+      - name: Output result
+        run: echo needs.generator.outputs.final-result
