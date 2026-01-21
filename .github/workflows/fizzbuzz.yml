@@ -30,4 +30,6 @@ jobs:
     needs: generator
     steps:
       - name: Output result
-        run: echo "${{needs.generator.outputs.final-result}}"
+        run: |
+          echo "Fizzbuzz to ${{inputs.places}} places:"
+          echo "${{needs.generator.outputs.final-result}}"
