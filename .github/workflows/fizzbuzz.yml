@@ -7,7 +7,7 @@ on:
 
 jobs:
   generator:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     outputs:
       fizzbuzz-step-result: ${{ steps.apply-fizzbuzz.outputs.fizzbuzz-step-result }}
       fizz-step-result: ${{ steps.apply-fizz.outputs.fizz-step-result }}
